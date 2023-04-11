@@ -52,6 +52,7 @@ html, body {
   background-color: #f2efe9;
   overflow-x: hidden;
   padding-top: 20px;
+  padding-left: 20px;
 }
 
 .sidebar a {
@@ -62,7 +63,7 @@ html, body {
 }
 
 .sidebar a:hover {
-  color: #f1f1f1;
+  color: #9d3e3e;
 }
 
 .main {
@@ -85,4 +86,21 @@ html, body {
 		1px -1px 0 #f2efe9,
 		-1px 1px 0 #f2efe9,
 		1px 1px 0 #f2efe9;
+}
+
+.nice-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px; /* Add margin to create a gap between button and previous element */
+}
+
+.nice-button:hover {
+  background-color: #0062cc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
