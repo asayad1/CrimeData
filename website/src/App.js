@@ -19,11 +19,17 @@ const App = () => {
 return (
   <div>
       <div className="sidebar">
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
+        <button class="nice-button">
+          <span>Display Food Security</span>
+        </button>
+        
+        <button class="nice-button">
+          <span>Toggle</span>
+        </button>
+        <br></br>
+        <button class="nice-button">
+          <span>Toggle</span>
+        </button>
       </div>
       <div className="main">
         <table cellSpacing="0" cellPadding="0" width="100%">
