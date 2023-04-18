@@ -80,7 +80,7 @@ html, body {
   text-align: center;
   position: relative;
   top: -50%;
-  background-color: #aad3df;
+  background-color: #a8dadc;
   color: black;
   height: 90px;
   text-shadow:
@@ -418,7 +418,9 @@ background: radial-gradient(circle, rgba(247,150,192,1) 0%, rgba(118,174,241,1) 
 background: linear-gradient(0deg, rgba(255,151,0,1) 0%, rgba(251,75,2,1) 100%);
   line-height: 42px;
   padding: 0;
-  margin-top: 580px;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
   border: none;
 }
 .btn-7 span {
