@@ -19,11 +19,18 @@ const App = () => {
 return (
   <div>
       <div className="sidebar">
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
-      <a>select here</a>
+        <button class="custom-btn btn-16">
+          <span>Display Food Security</span>
+        </button>
+        
+        <button class="custom-btn btn-16">
+          <span>Display Crime</span>
+        </button>
+        
+        <button class="custom-btn btn-7">
+          <span>Download Report</span>
+        </button>
+        
       </div>
       <div className="main">
         <table cellSpacing="0" cellPadding="0" width="100%">
