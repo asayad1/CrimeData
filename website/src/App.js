@@ -1,33 +1,44 @@
 import React, { useState } from 'react';
 import './App.css';
 import Map from "./Map/Map.js";
-import {Feature} from 'ol/index.js';
+import {Feature, Overlay} from 'ol/index.js';
 import { Layers, TileLayer, VectorLayer } from "./Layers";
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { osm, vector } from "./Source";
 import { fromLonLat, get } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Point} from 'ol/geom.js';
+import FeatureStyles from "./Features/Styles";
 
-// example crime coordinates
-const point1 = new Point([-76.6451, 39.3191]); 
-const point2 = new Point([-76.5866, 39.3358]);
+
+const markersLonLat = [[-76.6451, 39.3191], [-76.5866, 39.3358]];
+
+function addMarkers(lonLatArray) {
+  let features = lonLatArray.map((item) => {
+    let feature = new Feature({
+      geometry: new Point(fromLonLat(item)),
+    });
+    return feature;
+  });
+  return features;
+}
 
 const App = () => {
   const [center, setCenter] = useState([-76.6122, 39.2904]); // baltimore
   const [zoom, setZoom] = useState(11.7);
+  const [features, setFeatures] = useState(addMarkers(markersLonLat));
 return (
   <div>
       <div className="sidebar">
-        <button class="custom-btn btn-16">
+        <button className="custom-btn btn-16">
           <span>Display Food Security</span>
         </button>
         
-        <button class="custom-btn btn-16">
+        <button className="custom-btn btn-16">
           <span>Display Crime</span>
         </button>
         
-        <button class="custom-btn btn-7">
+        <button className="custom-btn btn-7">
           <span>Download Report</span>
         </button>
         
@@ -49,16 +60,7 @@ return (
                         source={osm()}
                         zIndex={0}
                       />
-                      <VectorLayer
-                        source={vector({ features: [new Feature(point1) ]})}
-                        style={{'circle-radius': 4, 'circle-fill-color': 'red'}}
-                        zIndex={1}
-                      />
-                      <VectorLayer
-                        source={vector({ features: [new Feature(point2)] })}
-                        style={{'circle-radius': 4, 'circle-fill-color': 'red'}}
-                        zIndex={2}
-                      />
+                      <VectorLayer source={vector({ features })} style={{'circle-radius': 4, 'circle-fill-color': 'red'}} />
                     </Layers>
                   </Map>
                 </div>
