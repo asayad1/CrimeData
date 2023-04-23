@@ -9,9 +9,11 @@ import { fromLonLat, get } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Point} from 'ol/geom.js';
 import FeatureStyles from "./Features/Styles";
+import mapConfig from "./config.json";
 
 
 const markersLonLat = [[-76.6451, 39.3191], [-76.5866, 39.3358]];
+const geojsonObject = mapConfig.geojsonObject;
 
 function addMarkers(lonLatArray) {
   let features = lonLatArray.map((item) => {
@@ -56,11 +58,16 @@ return (
                   <div id="popup"></div>
                   <Map center={fromLonLat(center)} zoom={zoom}>
                     <Layers>
-                      <TileLayer
-                        source={osm()}
-                        zIndex={0}
-                      />
+                      <TileLayer source={osm()} zIndex={0} />
                       <VectorLayer source={vector({ features })} style={{'circle-radius': 4, 'circle-fill-color': 'red'}} />
+                      <VectorLayer
+                        source={vector({
+                          features: new GeoJSON().readFeatures(geojsonObject, {
+                            featureProjection: get("EPSG:3857"),
+                          }),
+                        })}
+                        style={FeatureStyles.MultiPolygon}
+                      />
                     </Layers>
                   </Map>
                 </div>
