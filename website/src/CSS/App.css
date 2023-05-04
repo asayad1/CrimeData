@@ -1,3 +1,17 @@
+
+.main{
+  position: relative;;
+}
+
+.mybuttons{
+  bottom:0;
+  left:0;
+  margin-left: 100px;
+  margin-bottom: 100px;
+  position: absolute;
+}
+
+
 .App {
   text-align: center;
 }
@@ -64,10 +78,6 @@ html, body {
 
 .sidebar a:hover {
   color: #9d3e3e;
-}
-
-.main {
-  margin-left: 200px; /* Same as the width of the sidenav */
 }
 
 .map {
