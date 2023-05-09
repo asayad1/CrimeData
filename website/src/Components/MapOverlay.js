@@ -64,7 +64,7 @@ const OpenLayersHeatmap = () => {
         ],
         view: new View({
           center: fromLonLat([-76.6122, 39.2904]),
-          zoom: 13,
+          zoom: 11.7,
         }),
       });
     }
