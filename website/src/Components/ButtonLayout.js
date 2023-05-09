@@ -9,6 +9,5 @@ export default function ButtonLayout() {
 			<ImgButton logo={require("../Images/filter.png")} />
 			<ImgButton logo={require("../Images/pin.png")} />
 		</div>
-		
     )
 }
