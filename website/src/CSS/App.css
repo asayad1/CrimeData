@@ -86,7 +86,7 @@ html, body {
   height: 100%;
 }
 
-.header {
+/*.header {
   text-align: center;
   position: relative;
   top: -50%;
@@ -98,7 +98,7 @@ html, body {
 		1px -1px 0 #f2efe9,
 		-1px 1px 0 #f2efe9,
 		1px 1px 0 #f2efe9;
-}
+}*/
 
 .frame {
   width: 90%;
