@@ -51,6 +51,10 @@ const OpenLayersHeatmap = () => {
             });
           }),
         }),
+        style: {
+          'circle-radius': 5,
+          'circle-fill-color': 'red',
+        },
       });
 
       const map = new Map({
@@ -69,9 +73,6 @@ const OpenLayersHeatmap = () => {
       });
     }
   }, []);
-
-
-
   
   return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}></div>;
 };
