@@ -1,6 +1,6 @@
 
 .main{
-  position: relative;;
+  position: relative;
 }
 
 .mybuttons{
@@ -10,7 +10,6 @@
   margin-bottom: 100px;
   position: absolute;
 }
-
 
 .App {
   text-align: center;
@@ -85,20 +84,6 @@ html, body {
 
   height: 100%;
 }
-
-/*.header {
-  text-align: center;
-  position: relative;
-  top: -50%;
-  background-color: #aad3df;
-  color: black;
-  height: 90px;
-  text-shadow:
-		-1px -1px 0 #f2efe9,
-		1px -1px 0 #f2efe9,
-		-1px 1px 0 #f2efe9,
-		1px 1px 0 #f2efe9;
-}*/
 
 .frame {
   width: 90%;
@@ -825,7 +810,7 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
 }
 
 
-/* 16 */
+/* 16 *//*
 .btn-16 {
   background: #f1faee;
   border: none;
@@ -857,4 +842,4 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
 }
 .btn-16:active {
   top: 2px;
-}
+}*/
