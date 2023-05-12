@@ -7,11 +7,29 @@ import OSM from 'ol/source/OSM';
 import Heatmap from 'ol/layer/Heatmap';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { Point } from 'ol/geom';
 import { Feature } from 'ol';
 import { Overlay } from 'ol';
+import 'react-bootstrap';
+import 'bootstrap/dist/js/bootstrap.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import bootstrap from 'bootstrap/dist/js/bootstrap.js';
 
+function formatCoordinate(coordinate) {
+  coordinate = toLonLat(coordinate);
+  return `
+    <table width="200px" font="Monaco">
+      <tbody>
+        <tr><th>Day:</th><td>5/11/23</td></tr>
+        <tr><th>Time:</th><td>10:29 am</td></tr>
+        <tr><th>Crime:</th><td>robbery</td></tr>
+        <tr><th>Weapon:</th><td>gun</td></tr>
+        <tr><th>lon</th><td>${coordinate[0].toFixed(2)}</td></tr>
+        <tr><th>lat</th><td>${coordinate[1].toFixed(2)}</td></tr>
+      </tbody>
+    </table>`;
+}
 
 const OpenLayersHeatmap = () => {
   const mapRef = useRef(null);
@@ -71,13 +89,51 @@ const OpenLayersHeatmap = () => {
           zoom: 11.7,
         }),
       });
+
+      const element = document.getElementById('popup');
+      const popup = new Overlay({
+        element: element,
+        stopEvent: false,
+      });
+      map.addOverlay(popup);
+
+      let popover;
+      map.on('click', function (event) {
+        if (popover) {
+          popover.dispose();
+          popover = undefined;
+        }
+        const feature = map.getFeaturesAtPixel(event.pixel)[0];
+        if (!feature) {
+          return;
+        }
+        const coordinate = feature.getGeometry().getCoordinates();
+        popup.setPosition([
+          coordinate[0],
+          coordinate[1],
+        ]);
+
+        popover = new bootstrap.Popover(element, {
+          container: element.parentElement,
+          content: formatCoordinate(coordinate),
+          html: true,
+          offset: [0, 20],
+          placement: 'top',
+          sanitize: false,
+          backgound: 'tomato'
+        });
+        popover.show();
+      });
+
+      map.on('pointermove', function (event) {
+        const type = map.hasFeatureAtPixel(event.pixel) ? 'pointer' : 'inherit';
+        map.getViewport().style.cursor = type;
+      });
+
     }
   }, []);
 
-
-
-  
-  return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}></div>;
+  return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}><div id="popup"></div></div>;
 };
 
 export default OpenLayersHeatmap;
