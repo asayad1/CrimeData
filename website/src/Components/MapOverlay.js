@@ -15,11 +15,12 @@ import 'react-bootstrap';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import bootstrap from 'bootstrap/dist/js/bootstrap.js';
+import "../CSS/MapOverlay.css"
 
 function formatCoordinate(coordinate) {
   coordinate = toLonLat(coordinate);
   return `
-    <table width="200px" font="Monaco">
+    <table style="width: 200px; font: Monaco; background-color: #e0e5ec">
       <tbody>
         <tr><th>Day:</th><td>5/11/23</td></tr>
         <tr><th>Time:</th><td>10:29 am</td></tr>
@@ -112,17 +113,18 @@ const OpenLayersHeatmap = () => {
           coordinate[0],
           coordinate[1],
         ]);
-
+        
         popover = new bootstrap.Popover(element, {
           container: element.parentElement,
           content: formatCoordinate(coordinate),
           html: true,
           offset: [0, 20],
           placement: 'top',
-          sanitize: false,
-          backgound: 'tomato'
+          sanitize: false
         });
+        console.log(popover)
         popover.show();
+
       });
 
       map.on('pointermove', function (event) {
