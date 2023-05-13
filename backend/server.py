@@ -4,12 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
 import sqlite3
 from threading import Lock
-
 # Initializing flask app
 app = Flask(__name__)
 CORS(app)
 
-conn  = sqlite3.connect('crimeDBTrimmed.db', check_same_thread=False)
+conn  = sqlite3.connect('crimeDBFinal.db', check_same_thread=False)
 c = conn.cursor()
 lock = Lock()
 #Below is the table name for the crime data
