@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef , useState,useEffect} from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -11,6 +11,7 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import { Point } from 'ol/geom';
 import { Feature } from 'ol';
 import { Overlay } from 'ol';
+import axios from 'axios';
 import 'react-bootstrap';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -34,20 +35,19 @@ function formatCoordinate(coordinate) {
 
 const OpenLayersHeatmap = () => {
   const mapRef = useRef(null);
+  const [data, setData] = useState([]);
 
-  useLayoutEffect(() => {
+  const points2 = data.map(row => [row[12], row[11]]);
+  useEffect(() => {
+    // Fetch data from the backend API
+    axios.get('http://127.0.0.1:5000/api/data')
+      .then(response => setData(response.data))
+      .catch(error => console.error(error));
+  }, []);
+
+  useEffect(() => {  
     if (mapRef.current) {
-      const points = [
-        [-76.6122, 39.2904],
-        [-76.6053, 39.2835],
-        [-76.5932, 39.2881],
-        [-76.6023, 39.2915],
-        [-76.5959, 39.2831],
-        [-76.5959, 39.2801],
-        [-76.5959, 39.2801],
-        [-76.5959, 39.2801],
-        [-76.5959, 39.2801]
-      ];
+      const points = points2
 
       const heatmapLayer = new Heatmap({
         source: new VectorSource({
@@ -57,8 +57,8 @@ const OpenLayersHeatmap = () => {
             });
           }),
         }),
-        blur: 20,
-        radius: 10,
+        blur: 5,
+        radius: 2,
         gradient: ['#00f', '#0ff', '#0f0', '#ff0', '#f00'],
       });
 
@@ -131,9 +131,12 @@ const OpenLayersHeatmap = () => {
         const type = map.hasFeatureAtPixel(event.pixel) ? 'pointer' : 'inherit';
         map.getViewport().style.cursor = type;
       });
-
+      
+      return () => {
+        map.setTarget(null);
+      };
     }
-  }, []);
+  }, [points2]);
 
   return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}><div id="popup"></div></div>;
 };
