@@ -1,0 +1,11 @@
+.popover-body {
+    background-color: #e0e5ec;
+    border-radius: 5%;
+    font: Monaco;
+}
+
+.popover {
+    background-color: white !important;
+    border: 2px solid white !important;
+    border-radius: 5% !important;
+}
