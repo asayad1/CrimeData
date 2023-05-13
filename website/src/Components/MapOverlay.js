@@ -1,4 +1,3 @@
-
 import React, { useLayoutEffect, useRef , useState,useEffect} from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
