@@ -1,3 +1,4 @@
+
 import React, { useLayoutEffect, useRef , useState,useEffect} from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
@@ -33,11 +34,13 @@ function formatCoordinate(coordinate) {
     </table>`;
 }
 
-const OpenLayersHeatmap = () => {
+const OpenLayersHeatmap = (props) => {
+
   const mapRef = useRef(null);
+  
   const [data, setData] = useState([]);
 
-  const points2 = data.map(row => [row[12], row[11]]);
+  const points2 = data.slice(0, 1000).map(row => [row[12], row[11]]);
   useEffect(() => {
     // Fetch data from the backend API
     axios.get('http://127.0.0.1:5000/api/data')
@@ -48,8 +51,10 @@ const OpenLayersHeatmap = () => {
   useEffect(() => {  
     if (mapRef.current) {
       const points = points2
+      let map; 
 
-      const heatmapLayer = new Heatmap({
+      if (props.heatmap) {
+      let heatmapLayer = new Heatmap({
         source: new VectorSource({
           features: points.map((point) => {
             return new Feature({
@@ -58,11 +63,26 @@ const OpenLayersHeatmap = () => {
           }),
         }),
         blur: 5,
-        radius: 2,
+        radius: 3.5,
         gradient: ['#00f', '#0ff', '#0f0', '#ff0', '#f00'],
       });
 
-      const pointLayer = new VectorLayer({
+      map = new Map({
+        target: mapRef.current,
+        layers: [
+          new TileLayer({
+            source: new OSM({attributions: ''}),
+          }),
+          heatmapLayer
+        ],
+        view: new View({
+          center: fromLonLat([-76.6122, 39.2904]),
+          zoom: 11.7,
+        }),
+      });
+    } else {
+
+      let pointLayer = new VectorLayer({
         source: new VectorSource({
           features: points.map((point) => {
             return new Feature({
@@ -76,21 +96,20 @@ const OpenLayersHeatmap = () => {
         }
       });
 
-      const map = new Map({
+      map = new Map({
         target: mapRef.current,
         layers: [
           new TileLayer({
             source: new OSM({attributions: ''}),
           }),
-          pointLayer,
-          heatmapLayer
+          pointLayer
         ],
         view: new View({
           center: fromLonLat([-76.6122, 39.2904]),
           zoom: 11.7,
         }),
       });
-
+    }
       const element = document.getElementById('popup');
       const popup = new Overlay({
         element: element,

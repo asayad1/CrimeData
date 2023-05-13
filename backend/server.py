@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
 import sqlite3
 from threading import Lock
+  
 # Initializing flask app
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +14,7 @@ c = conn.cursor()
 lock = Lock()
 #Below is the table name for the crime data
 #   Crime_data_trimmed_2
+#
 #Below is the table name for the crime data
 #   "Median_Household_Income"
 # Route for get students
@@ -26,7 +28,7 @@ def get_data():
     #this is for displaying just one table at a time
     #c.execute('SELECT * FROM Median_Household_Income')
     lock.acquire(True)
-    c.execute('SELECT * FROM Crime_data_trimmed_2')
+    c.execute('SELECT * FROM Crime_data_trimmed_2final')
     rows = c.fetchall()
     lock.release()
     return jsonify(rows)
@@ -45,7 +47,7 @@ def get_data2():
     rows = c.fetchall()
     lock.release()
     return jsonify(rows)
-
+      
 # Running app
 if __name__ == '__main__':
     app.run(debug=True)
