@@ -4,6 +4,7 @@ import '../CSS/App.css';
 import ButtonLayout from './ButtonLayout';
 import Header from './Header';
 import Graph from './graph'
+import Sidebar from './Sidebar';
 
 export default function App() {
 /*
@@ -14,7 +15,8 @@ export default function App() {
 */		
 	// This holds the state between toggling points and heatmaps
 	const [isHeatmap, setIsHeatmap] = useState(false);
-	
+	const [isOpen, setIsopen] = useState(false);
+
 	// This is the function called when displaying charts
 	function displayChart() {
 		alert("This displays a chart")
@@ -22,7 +24,7 @@ export default function App() {
 
 	// This is the function called when filtering data
 	function filterData() {
-		alert("This clicked the filter data button.")
+		setIsopen(true);
 	}
 	// This is a function that toggles the heatmap
 	function toggleHeatmap() {
@@ -35,6 +37,7 @@ export default function App() {
 			<MapOverlay heatmap={isHeatmap}/>
 			<Header />
 			<ButtonLayout buttonFuncs={[displayChart, filterData, toggleHeatmap]}/>
+			<Sidebar isOpen={isOpen} ToggleSidebar={setIsopen}/>
 			<Graph />
 		</div>
 	);

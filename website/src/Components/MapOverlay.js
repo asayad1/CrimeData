@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef , useState,useEffect} from 'react';
+import React, { useLayoutEffect, useRef , useState,useEffect, memo} from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -159,4 +159,4 @@ const OpenLayersHeatmap = (props) => {
   return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}><div id="popup"></div></div>;
 };
 
-export default OpenLayersHeatmap;
+export default memo(OpenLayersHeatmap);
