@@ -18,24 +18,25 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import bootstrap from 'bootstrap/dist/js/bootstrap.js';
 import "../CSS/MapOverlay.css"
 
-function formatCoordinate(coordinate) {
-  coordinate = toLonLat(coordinate);
-  return `
-    <table style="width: 200px; font: Monaco; background-color: #e0e5ec">
-      <tbody>
-        <tr><th>Day:</th><td>5/11/23</td></tr>
-        <tr><th>Time:</th><td>10:29 am</td></tr>
-        <tr><th>Crime:</th><td>robbery</td></tr>
-        <tr><th>Weapon:</th><td>gun</td></tr>
-        <tr><th>lon</th><td>${coordinate[0].toFixed(2)}</td></tr>
-        <tr><th>lat</th><td>${coordinate[1].toFixed(2)}</td></tr>
-      </tbody>
-    </table>`;
+function formatCoordinate(coordinate, info) {
+  if(info) {
+    coordinate = toLonLat(coordinate);
+    return `
+      <table style="width: 200px; font: Monaco; background-color: #e0e5ec">
+        <tbody>
+          <tr><th>Date:</th><td>${info[1].slice(0, 10)}</td></tr>
+          <tr><th>Time:</th><td>${info[1].slice(11, -3)}</td></tr>
+          <tr><th>Crime:</th><td>${info[3]}</td></tr>
+        </tbody>
+      </table>`;
+  }
+  return `<h1>error</h1>`
 }
 
 const OpenLayersHeatmap = (props) => {
 
   const mapRef = useRef(null);
+  const popUpRef = useRef(null);
   
   const [data, setData] = useState([]);
 
@@ -108,8 +109,8 @@ const OpenLayersHeatmap = (props) => {
           zoom: 11.7,
         }),
       });
-    }
-      const element = document.getElementById('popup');
+    
+      const element = popUpRef.current
       const popup = new Overlay({
         element: element,
         stopEvent: false,
@@ -127,6 +128,10 @@ const OpenLayersHeatmap = (props) => {
           return;
         }
         const coordinate = feature.getGeometry().getCoordinates();
+        let lon = Number(toLonLat(coordinate)[0].toFixed(6))
+        let lat = Number(toLonLat(coordinate)[1].toFixed(6))
+        const found_point = data.slice(0, 1000).filter(item => item[12] === lon).filter(item => item[11] === lat)[0];
+
         popup.setPosition([
           coordinate[0],
           coordinate[1],
@@ -134,13 +139,12 @@ const OpenLayersHeatmap = (props) => {
         
         popover = new bootstrap.Popover(element, {
           container: element.parentElement,
-          content: formatCoordinate(coordinate),
+          content: formatCoordinate(coordinate, found_point),
           html: true,
           offset: [0, 20],
           placement: 'top',
           sanitize: false
         });
-        console.log(popover)
         popover.show();
 
       });
@@ -149,6 +153,7 @@ const OpenLayersHeatmap = (props) => {
         const type = map.hasFeatureAtPixel(event.pixel) ? 'pointer' : 'inherit';
         map.getViewport().style.cursor = type;
       });
+    }
       
       return () => {
         map.setTarget(null);
@@ -156,7 +161,7 @@ const OpenLayersHeatmap = (props) => {
     }
   }, [points2]);
 
-  return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}><div id="popup"></div></div>;
+  return <div ref={mapRef} style={{ height: '100vh', width: '100vw' }}><div ref={popUpRef}></div></div>;
 };
 
 export default memo(OpenLayersHeatmap);
