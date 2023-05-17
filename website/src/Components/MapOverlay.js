@@ -34,13 +34,30 @@ function formatCoordinate(coordinate, info) {
 }
 
 const OpenLayersHeatmap = (props) => {
-
   const mapRef = useRef(null);
   const popUpRef = useRef(null);
-  
   const [data, setData] = useState([]);
 
-  const points2 = data.slice(0, 1000).map(row => [row[12], row[11]]);
+  let points2 = null
+  points2 = data.slice(0, 10000)
+  if(JSON.stringify(props.filters) !== '[]'){
+    let i = 0
+    for(i; i < props.filters.length; i++) {
+      points2 = points2.filter((item) => props.filters.includes(item[4]))
+    }
+  }
+  if(JSON.stringify(props.filters2) !== '[]'){
+    let i = 0
+    for(i; i < props.filters2.length; i++) {
+      points2 = points2.filter((item) => props.filters2.includes(item[3]))
+    }
+  }
+  if(JSON.stringify(props.filters3) !== '[]'){
+    let i = 0
+    for(i; i < props.filters3.length; i++) {
+      points2 = points2.filter((item) => props.filters3.includes(item[9]))
+    }
+  }
   useEffect(() => {
     // Fetch data from the backend API
     axios.get('http://127.0.0.1:5000/api/data')
@@ -50,7 +67,7 @@ const OpenLayersHeatmap = (props) => {
 
   useEffect(() => {  
     if (mapRef.current) {
-      const points = points2
+      const points = points2.map(row => [row[12], row[11]])
       let map; 
 
       if (props.heatmap) {
