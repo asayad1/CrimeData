@@ -809,9 +809,27 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
   top: 2px;
 }
 
+.dropdown-container {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+}
+
+.dropdown {
+  width: 100px; /* Adjust the width as needed */
+  padding: 5px;
+  font-size: 14px;
+}
+
 .chart-container {
-  width: 1000px;
-  height: 800px;
+ /* margin-top: 30px; /* Adjust the top margin as needed */
+  height: 99%;
+  width: 100%;
+}
+
+.modal-content {
+  height: 100%;
+  width: 100%;
 }
 
 /* 16 *//*

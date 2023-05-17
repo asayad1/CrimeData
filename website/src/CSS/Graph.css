@@ -1,5 +1,5 @@
 /* what is the point of this if it can only be changed in app.css? */
 .chart-container {
-  width: 1000px;
-  height: 800px;
+  width: 100%;
+  height: 10%;
 }
