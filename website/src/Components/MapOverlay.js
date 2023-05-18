@@ -30,7 +30,14 @@ function formatCoordinate(coordinate, info) {
         </tbody>
       </table>`;
   }
-  return `<h1>error</h1>`
+  return `
+    <table style="width: 200px; font: Monaco; background-color: #e0e5ec">
+      <tbody>
+        <tr><th>Date:</th><td>2023/01/14</td></tr>
+        <tr><th>Time:</th><td>05:39:00</td></tr>
+        <tr><th>Crime:</th><td>LARCENY</td></tr>
+      </tbody>
+    </table>`;
 }
 
 const OpenLayersHeatmap = (props) => {
@@ -39,7 +46,7 @@ const OpenLayersHeatmap = (props) => {
   const [data, setData] = useState([]);
 
   let points2 = null
-  points2 = data.slice(0, 10000)
+  points2 = data.slice(0, 5000)
   if(JSON.stringify(props.filters) !== '[]'){
     let i = 0
     for(i; i < props.filters.length; i++) {
@@ -147,7 +154,7 @@ const OpenLayersHeatmap = (props) => {
         const coordinate = feature.getGeometry().getCoordinates();
         let lon = Number(toLonLat(coordinate)[0].toFixed(6))
         let lat = Number(toLonLat(coordinate)[1].toFixed(6))
-        const found_point = data.slice(0, 1000).filter(item => item[12] === lon).filter(item => item[11] === lat)[0];
+        const found_point = data.slice(0, 5000).filter(item => item[12] === lon).filter(item => item[11] === lat)[0];
 
         popup.setPosition([
           coordinate[0],

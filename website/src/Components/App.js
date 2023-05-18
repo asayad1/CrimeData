@@ -3,7 +3,7 @@ import MapOverlay from './MapOverlay';
 import '../CSS/App.css';
 import ButtonLayout from './ButtonLayout';
 import Header from './Header';
-import Graph from './Graph'
+import Graph from './graph'
 import Sidebar from './Sidebar';
 import ReactModal from 'react-modal';
 import axios from "axios";
