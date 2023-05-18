@@ -3,26 +3,38 @@ import MapOverlay from './MapOverlay';
 import '../CSS/App.css';
 import ButtonLayout from './ButtonLayout';
 import Header from './Header';
-import Graph from './graph'
+import Graph from './Graph'
 import Sidebar from './Sidebar';
-import axios from "axios"
+import ReactModal from 'react-modal';
+import axios from "axios";
 import GenPDF from './Report';
 
 export default function App() {
 	// This holds the state between toggling points and heatmaps
 	const [isHeatmap, setIsHeatmap] = useState(false);
 	const [isOpen, setIsopen] = useState(false);
-	const [filterDatas,setFilterData] = useState('');
-	const [filterData2,setFilterData2] = useState('');
-	const [filterData3,setFilterData3] = useState('');
+	const [showGraph, setShowGraph] = useState(false);
+	const [isChartModalOpen, setChartModalOpen] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("");
+	const [filterDatas, setFilterData] = useState('');
+	const [filterData2, setFilterData2] = useState('');
+	const [filterData3, setFilterData3] = useState('');
 	const [data, setData] = useState([]);
 
-	// Query the database 
-	axios.get('http://127.0.0.1:5000/api/data')
-		.then(response => setData(response.data))
-		.catch(error => console.error(error));
-	axios.get()
-		
+	useEffect(() => {
+		// Fetch data from the backend API
+		axios.get('http://127.0.0.1:5000/api/data')
+		  .then(response => setData(response.data))
+		  .catch(error => console.error(error));
+	  }, []);
+	  
+	function openChartModal() {
+		setChartModalOpen(true);
+	}
+	
+	function closeChartModal() {
+		setChartModalOpen(false);
+	}	
 
 	//function called for moving the weapon type filters to mapOverlay
 	const handleDataChange = (newData) => {
@@ -37,7 +49,10 @@ export default function App() {
 	};
 	// This is the function called when displaying charts
 	function displayChart() {
-		alert("This displays a chart")
+		//alert("This displays a chart")
+		setShowGraph(true);
+		openChartModal();
+		<Graph g={showGraph} />
 	}
 
 	// This is the function called when filtering data
@@ -82,6 +97,20 @@ export default function App() {
 			<Header />
 			<ButtonLayout buttonFuncs={[displayChart, filterData, toggleHeatmap, downloadPDF]}/>
 			<Sidebar isOpen={isOpen} ToggleSidebar={setIsopen} onDataChanged={handleDataChange} onDataChanged2={handleDataChange2} onDataChanged3={handleDataChange3}/>
+			
+			{/* New code: ReactModal component */}
+			<ReactModal
+				isOpen={isChartModalOpen}
+				onRequestClose={closeChartModal}
+				// Add any necessary modal styling or configuration props
+			>
+				<div className="modal-content">
+				{/* New code: Dropdown */}
+				
+				{/* Updated code: Show graph inside the modal */}
+				{showGraph && <Graph />}
+				</div>
+      		</ReactModal>
 		</div>
 	);
 }
