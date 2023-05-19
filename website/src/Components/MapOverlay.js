@@ -30,14 +30,7 @@ function formatCoordinate(coordinate, info) {
         </tbody>
       </table>`;
   }
-  return `
-    <table style="width: 200px; font: Monaco; background-color: #e0e5ec">
-      <tbody>
-        <tr><th>Date:</th><td>2023/01/14</td></tr>
-        <tr><th>Time:</th><td>05:39:00</td></tr>
-        <tr><th>Crime:</th><td>LARCENY</td></tr>
-      </tbody>
-    </table>`;
+  return `<h1>error</h1>`;
 }
 
 const OpenLayersHeatmap = (props) => {
